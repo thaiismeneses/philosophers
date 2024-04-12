@@ -17,12 +17,25 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/time.h>
 
+typedef struct cutlery
+{
+	int index;
+	int	status;
+}	cutlery;
 
+typedef struct philo
+{
+	int	index;
+	pthread_t	philosopher;
+	time_t	tt_eat;
+	time_t	tt_sleep;
+	time_t	tt_die;
+}	philo;
 
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
 int	check_args(char **av);
-int valid_digit(char *str);
 
 #endif

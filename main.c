@@ -12,9 +12,15 @@
 
 #include "philos.h"
 
-pthread_t	philosopher[5];
 pthread_mutex_t chopstick[5];
 
+time_t	get_time_in_ms(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
 
 
 void	*actions(void *n)
@@ -42,16 +48,14 @@ void	*actions(void *n)
 
 int main(int ac, char **av)
 {
-	int args_valid = check_args(av);
+	philo	philosopher;
+
+	
 	if ((ac == 5 || ac == 6) && check_args(av))
 	{
-		printf("return of check args: %d\n", args_valid);
-		printf("Argumentos ok!!");
+		
 	}
 	else
-	{
-		printf("return of check args: %d\n", args_valid);
 		printf("How to use: ./philo nbr_of_philosophers time_to_die time_to_eat time_to	_sleep\n ");
-	}
 	return (0);
 }
