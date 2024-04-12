@@ -17,7 +17,7 @@
 
 int	ft_isdigit(int c)
 {
-	if (c >= 48 && c <= 57)
+	if (c >= '0' && c <= '9')
 	{
 		return (1);
 	}
@@ -49,20 +49,21 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
+
+
 int	check_args(char **av)
 {
 	int i;
-	//int nbr;
+	int j;
 
 	i = 1;
-	while (av)
+	while (av[i] != NULL)
 	{
-		printf("Arg[%d]: %s", i, av[i]);
-		if (ft_isdigit(*av[i]) == 0)
-			return (1);
-		i++;
+		j = 0;
+		while (av[i][j] != '\0' && (ft_isdigit(av[i][j]) == 1))
+			j++;
+		if (av[i++][j] != '\0')
+			return (0);
 	}
-	if (ft_atoi(av[0]) <= 0)
-		return (1);
-	return (0);
+	return (1);
 }

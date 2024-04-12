@@ -18,8 +18,11 @@
 #include <unistd.h>
 #include <pthread.h>
 
+
+
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
 int	check_args(char **av);
+int valid_digit(char *str);
 
 #endif
