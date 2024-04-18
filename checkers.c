@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//so_tem numeros 
-
-//numeros maiores de 0 e mnor de 200 philosopher
 #include "philos.h"
 
 int	ft_isdigit(int c)

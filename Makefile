@@ -2,6 +2,7 @@ NAME		:= philo
 
 SRCS		:= main.c \
 				checkers.c \
+				utils.c \
 
 OBJS		:=	$(SRCS:.c=.o)
 

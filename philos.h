@@ -11,31 +11,39 @@
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
 
-typedef struct cutlery
+typedef struct s_cutlery
 {
-	int index;
-	int	status;
-}	cutlery;
+//	int index;
+	pthread_mutex_t fork;
+//	int	status;
+}	t_cutlery;
 
-typedef struct philo
+typedef struct s_philo
 {
-	int	index;
-	pthread_t	philosopher;
+	int	id;
 	time_t	tt_eat;
 	time_t	tt_sleep;
 	time_t	tt_die;
-}	philo;
+	int	nbr_meals_eaten;
+	int	nbr_meals;
+	t_cutlery	*left_fork;
+	t_cutlery	*right_fork;
+	time_t	last_meal;
+}	t_philo;
 
 int	ft_isdigit(int c);
 int	ft_atoi(const char *str);
 int	check_args(char **av);
-
+void    ft_sleep(time_t ms);
+void 	init_philosophers(t_philo *philosopher, t_cutlery *fork, char **av);
+void	*actions(void *n);
+time_t	get_time_in_ms(void);
 #endif

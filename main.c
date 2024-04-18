@@ -12,50 +12,49 @@
 
 #include "philos.h"
 
-pthread_mutex_t chopstick[5];
-
-time_t	get_time_in_ms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-
-void	*actions(void *n)
-{
-	int	philo = *(int *)n;
-
-	pthread_mutex_init(&chopstick[philo], NULL);
-	//sleep(1);
-	pthread_mutex_lock(&chopstick[philo]);
-	pthread_mutex_lock(&chopstick[(philo + 1) % 5]);
-
-	printf("\n Philosopher %d has taken a chopstick\n", philo);
-	printf("\n Philosopher %d is eating\n", philo);
-	sleep(1);
-	pthread_mutex_unlock(&chopstick[philo]);
-	pthread_mutex_unlock(&chopstick[(philo + 1) % 5]);
-
-	printf("\n Philosopher %d is sleeping\n", philo);
-	printf("\n Philosopher %d is thinking\n", philo);
-	printf("\n Philosopher %d died\n", philo);
-
-
-	return (NULL);
-}
-
 int main(int ac, char **av)
 {
-	philo	philosopher;
+	t_philo	*philosophers;
+	t_cutlery	*fork;
+	pthread_t	*thread;
+	int i;
 
-	
+	i = 0;
 	if ((ac == 5 || ac == 6) && check_args(av))
 	{
-		
+		philosophers = (t_philo *)malloc(sizeof(t_philo) * ft_atoi(av[1]));
+		thread = (pthread_t *)malloc(sizeof(pthread_t) * ft_atoi(av[1]));
+		fork = (t_cutlery *)malloc(sizeof(t_cutlery) * ft_atoi(av[1]));
+		init_philosophers(philosophers, fork, av);
+
+		while (i < ft_atoi(av[1]))
+		{
+			pthread_create(&thread[i], NULL, actions, &philosophers[i]);
+			i++;
+		}
+		i = 0;
+		while (i < ft_atoi(av[i]))
+		{
+			pthread_join(thread[i], NULL);
+			i++;
+		}
+		i = 0;
+		while (i < ft_atoi(av[i]))
+		{
+			printf("Philosopher %d ate %d meals\n", philosophers[i].id, philosophers[i].nbr_meals_eaten);
+			i++;
+		}
+		i = 0;
+		while (i < ft_atoi(av[i]))
+		{
+			pthread_mutex_destroy(&philosophers[i].left_fork->fork);
+			i++;
+		}
+		//free(fork);
+		//free(thread);
+		//free(philosophers);
 	}
 	else
-		printf("How to use: ./philo nbr_of_philosophers time_to_die time_to_eat time_to	_sleep\n ");
+		printf("How to use: ./thread nbr_of_philosophers time_to_die time_to_eat time_to	_sleep\n ");
 	return (0);
 }
