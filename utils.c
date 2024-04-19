@@ -14,10 +14,12 @@
 
 time_t	get_time_in_ms(void)
 {
+	long	time_ms;
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	time_ms = (tv.tv_sec * (time_t)1000)+(tv.tv_usec / 1000);
+	return (time_ms);
 }
 
 void    ft_sleep(time_t ms)
@@ -34,7 +36,7 @@ void	*actions(void *n)
 {
 	t_philo	*philosopher;
 	int	meals_eaten;
-	time_t	current_time;
+	time_t	current_time; 
 	//int	thread = *(int *)n;
  
 	philosopher = (t_philo *)n;
@@ -42,8 +44,8 @@ void	*actions(void *n)
 	current_time = get_time_in_ms();
 	while (philosopher->nbr_meals == 0  || meals_eaten < philosopher->nbr_meals)
 	{
-		printf("\n Philosopher %d is thinking\n", philosopher->id);
-		ft_sleep(philosopher->tt_sleep);
+		printf("\n %ld Philosopher %d is thinking\n", current_time, philosopher->id);
+		ft_sleep(philosopher->tt_sleep / 1000);
 
 		pthread_mutex_lock(&philosopher->left_fork->fork);
 		printf("\n Philosopher %d picked up left fork\n", philosopher->id);
@@ -52,14 +54,14 @@ void	*actions(void *n)
 
 		printf("\n Philosopher %d is eating\n", philosopher->id);
         philosopher->last_meal = get_time_in_ms();
-		usleep(philosopher->tt_eat);
+		usleep(philosopher->tt_eat / 1000);
 		meals_eaten++;
 
 		pthread_mutex_unlock(&philosopher->right_fork->fork);
 		pthread_mutex_unlock(&philosopher->left_fork->fork);
 
 		printf("\n Philosopher %d is sleeping\n", philosopher->id);
-		ft_sleep(philosopher->tt_sleep);
+		ft_sleep(philosopher->tt_sleep / 1000);
 
 		if (current_time - philosopher->last_meal > philosopher->tt_die)
 		{
@@ -80,9 +82,9 @@ void 	init_philosophers(t_philo *philosopher, t_cutlery *fork, char **av)
 		pthread_mutex_init(&fork[i].fork, NULL);
 		philosopher[i].id = i + 1;
 		philosopher[i].nbr_meals_eaten = 0;
-		philosopher[i].tt_die = ft_atoi(av[2]);
-		philosopher[i].tt_eat = ft_atoi(av[3]);
-		philosopher[i].tt_sleep = ft_atoi(av[4]);
+		philosopher[i].tt_die = ft_atoi(av[2]) * 1000;
+		philosopher[i].tt_eat = ft_atoi(av[3]) * 1000;
+		philosopher[i].tt_sleep = ft_atoi(av[4]) * 1000;
 		philosopher[i].nbr_meals = 0;
 		philosopher[i].left_fork = &fork[i];
 		philosopher[i].right_fork = &fork[(i + 1) % ft_atoi(av[1])];

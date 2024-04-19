@@ -51,10 +51,11 @@ int main(int ac, char **av)
 			i++;
 		}
 		//free(fork);
-		//free(thread);
+		//ree(thread);
 		//free(philosophers);
 	}
 	else
 		printf("How to use: ./thread nbr_of_philosophers time_to_die time_to_eat time_to	_sleep\n ");
 	return (0);
 }
+

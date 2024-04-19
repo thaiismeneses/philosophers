@@ -46,8 +46,6 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-
-
 int	check_args(char **av)
 {
 	int i;
