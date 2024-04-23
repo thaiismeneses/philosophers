@@ -1,14 +1,20 @@
 NAME		:= philo
 
 SRCS		:= main.c \
-				checkers.c \
-				utils.c \
+			tools.c \
+			actions.c \
+			init.c\
+			input.c\
+			threads.c\
+			wipe.c\
 
 OBJS		:=	$(SRCS:.c=.o)
 
 CC			:=	cc
 
-FLAGS		:=	-Wall -Wextra -Werror -g -fsanitize=address
+FLAGS		:=	-Wall -Wextra -Werror -g 
+
+#-fsanitize=address
 
 RM			:=	rm -rf
 
