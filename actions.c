@@ -81,7 +81,7 @@ void	philo_actions(t_info *input, t_philo *philo)
 	{
 		pthread_mutex_lock(&input->forks[philo->right_fork]);
 		print_state(input, philo, grabbed_fork);
-		if (input->nbr_philo = 1)
+		if (input->nbr_philo == 1)
 		{
 			pthread_mutex_unlock(&input->forks[philo->right_fork]);
 			ft_sleep(input->tt_die + 1);
@@ -97,15 +97,15 @@ void	philo_actions(t_info *input, t_philo *philo)
 
 void	*routine(void	*arg)
 {
-	t_info	input;
+	t_info	*input;
 	t_philo	*philo;
 
 	if (arg != NULL)
 	{
-		input = set_input(NULL);
+		input = get_input();
 		philo = (t_philo *)arg;
-		philo_beginning(&input, philo);
-		philo_actions(&input, philo);
+		philo_beginning(input, philo);
+		philo_actions(input, philo);
 		pthread_mutex_lock(philo->running_lock);
 		philo->running = false;
 		pthread_mutex_unlock(philo->running_lock);

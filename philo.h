@@ -58,7 +58,7 @@ typedef struct s_philo
 	int					left_fork;
 	pthread_mutex_t	*running_lock;
 	pthread_mutex_t	*eat_lock;
-	pthread_mutex_t	*thread_id;
+	pthread_t	thread_id;
 	pthread_mutex_t	*time_lock;
 	long				time_philo;
 
@@ -90,9 +90,11 @@ void	ft_input(void);
 t_info	*set_input(char **av);
 
 int	init_input(void);
-int	init_forks(void);
-int	init_each_philo(int i);
+//int	init_forks(void);
+//int	init_each_philo(int i);
 t_philo	**init_philos(t_bool init);
+t_info	*get_input(void);
+
 
 void	tread_join(void);
 int	thread_creation(t_info *input, t_philo **philos);
@@ -104,5 +106,7 @@ void	philo_actions(t_info *input, t_philo *philo);
 void	*routine(void	*arg);
 
 void	free_input(void);
+void	free_philos(void);
+
 
 #endif

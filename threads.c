@@ -21,7 +21,7 @@ void	thread_join(void)
 
 	i = 0;
 	check = 0;
-	philos = set_philos(NULL);
+	philos = init_philos(false);
 	while (philos[i] != NULL && check == 0)
 		check = pthread_join(philos[i++]->thread_id, NULL);
 }
@@ -37,8 +37,8 @@ int	thread_creation(t_info *input, t_philo **philos)
 	input->wait = true;
 	while (i < input->nbr_philo && check  == 0)
 	{
-		check = thread_creat(&philos[i]->thread_id, NULL,
-				&actions, philos[i]);
+		check = pthread_create(&philos[i]->thread_id, NULL,
+				&routine, philos[i]);
 		usleep(100);
 		i++;
 	}
@@ -46,3 +46,4 @@ int	thread_creation(t_info *input, t_philo **philos)
 		return (1);
 	return (0);
 }
+ 

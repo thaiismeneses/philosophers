@@ -17,13 +17,13 @@ int	init_input(void)
 {
 	t_info	*input;
 	
-	input = set_input(NULL);
-	input->state[is_eating] = "is eating\n";
-	input->state[grabbed_fork] = "has taken a fork\n";
-	input->state[is_sleeping] = "is sleeping\n";
-	input->state[is_thinking] = "is thinking\n';
-	input->state[is_dead] = "died\n";
-	input->state[6] = NULL;
+	input = get_input();
+	input->status[is_eating] = "is eating\n";
+	input->status[grabbed_fork] = "has taken a fork\n";
+	input->status[is_sleeping] = "is sleeping\n";
+	input->status[is_thinking] = "is thinking\n";
+	input->status[is_dead] = "died\n";
+	input->status[6] = NULL;
 	input->print_lock = ft_calloc(1, sizeof(pthread_mutex_t));
 	input->death_lock = ft_calloc(1, sizeof(pthread_mutex_t));
 	input->wait_lock = ft_calloc(1, sizeof(pthread_mutex_t));
@@ -36,9 +36,9 @@ int	init_input(void)
 }
 
 
-t_info	set_input(char **av)
+t_info	*set_input(char **av)
 {
-	t_info	*input;
+	static t_info	*input;
 
 	if (av == NULL)
 		return (input);
@@ -52,3 +52,9 @@ t_info	set_input(char **av)
 	pthread_mutex_init(input->wait_lock, NULL);
 	return (input);
 }
+
+t_info	*get_input(void)
+{
+	return (set_input(NULL));
+}
+
