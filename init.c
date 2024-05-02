@@ -3,100 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thfranco <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 14:05:37 by thfranco          #+#    #+#             */
-/*   Updated: 2024/04/23 16:45:24 by thfranco         ###   ########.fr       */
+/*   Created: 2024/04/30 10:14:17 by thfranco          #+#    #+#             */
+/*   Updated: 2024/04/30 10:48:52 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	error_fork(void)
+//[philo_position + 1] % philo_nbr posição do garfo esquerdo
+static void assign_forks(t_philo *philo, t_fork *forks, int position)
 {
-	printf("Error when initialising forks\n");
-	return (1);
+	int philo_nbr;
+
+	philo_nbr = philo->infos->philo_nbr;
+	if (philo->id % 2 == 0) //if philo id is odd(impar)
+	{
+		philo->first_fork = &forks[position];
+		philo->second_fork = &forks[(position + 1) % philo_nbr];
+	}
+	else
+	{
+		philo->first_fork = &forks[(position + 1) % philo_nbr];
+		philo->second_fork = &forks[position];
+	}
 }
 
-static int	init_forks(void)
+static void	philo_init(t_info *infos)
 {
 	int	i;
-	int	check;
-	t_philo	**philos;
-	t_info	*input;
+	t_philo	*philo;
 
-	input = get_input();
-	philos = init_philos(false);
-	input->forks = ft_calloc(input->nbr_philo, sizeof(pthread_mutex_t));
-	i = 0;
-	while (philos[i] != NULL)
+	i = -1;
+	while (i++ < infos->philo_nbr)
 	{
-		check = pthread_mutex_init(&input->forks[i], NULL);
-		if (check != 0)
-			return (error_fork());
-		philos[i]->right_fork = i;
-		i++;
+		philo = infos->philos + 1;
+		philo->id = i + 1;
+		philo->full = false;
+		philo->meals_counter = 0;
+		philo->infos = infos;
+		assign_forks(philo, infos->forks, i);
 	}
-	philos[0]->left_fork = philos[--i]->right_fork;
-	while (i > 0)
-	{
-		philos[i]->left_fork = philos[i - 1]->right_fork;
-		i--;
-	}
-	return (0);
+
 }
 
-static int	init_each_philo(int i)
+void	data_init(t_info *infos)
 {
-	t_philo	**philos;
+	int	i;
 
-	philos = init_philos(false);
-	philos[i] = ft_calloc(1, sizeof(t_philo));
-	if (philos[i] == NULL)
+	i = -1;
+	infos->end_routine = false;
+	infos->philos = calloc(infos->philo_nbr, sizeof(t_philo));
+	infos->forks = calloc(infos->philo_nbr, sizeof(t_fork));
+	while (i++ < infos->philo_nbr)
 	{
-		free_philos();
-		return (1);
+		handle_mutex(&infos->forks[i].fork, INIT);
+		infos->forks[i].fork_id = i;
 	}
-	philos[i]->id_philo = i + 1;
-	philos[i]->eating = false;
-	philos[i]->time_lock = ft_calloc(1, sizeof(pthread_mutex_t));
-	philos[i]->eat_lock = calloc(1, sizeof(pthread_mutex_t));
-	philos[i]->running_lock = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (philos[i]->time_lock == NULL || philos[i]->eat_lock == NULL
-				|| philos[i]->running_lock == NULL)
-	{
-		free_philos();
-		return (1);
-	}
-	pthread_mutex_init(philos[i]->running_lock, NULL);
-	pthread_mutex_init(philos[i]->time_lock, NULL);
-	pthread_mutex_init(philos[i]->eat_lock, NULL);
-	return (0);
-}
-
-t_philo	**init_philos(t_bool init)
-{
-	static t_philo	**philos;
-	int				i;
-	t_info			*input;
-
-	if (init == false)
-		return(philos);
-	input = get_input();
-	philos = ft_calloc(input->nbr_philo + 1, sizeof(t_philo *));
-	if (philos == NULL)
-		return (NULL);
-	i = 0;
-	while (i < input->nbr_philo)
-	{
-		if (init_each_philo(i) == 1)
-			return (NULL);
-		i++;
-	}
-	if (init_forks() == 1)
-	{
-		free_philos();
-		return (NULL);
-	}
-	return (philos);
+	philo_init(infos);
 }
