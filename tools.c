@@ -43,3 +43,8 @@ void	*ft_memset(void *s, int i, size_t len)
 	return (s);
 }
 
+void	wait_creation_philo(t_info * infos)
+{
+	while (!get_bool(&infos->info_mutex, &infos->all_philo_created))
+		;
+}

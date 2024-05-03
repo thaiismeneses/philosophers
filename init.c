@@ -54,8 +54,10 @@ void	data_init(t_info *infos)
 
 	i = -1;
 	infos->end_routine = false;
+	infos->all_philo_created = false;
 	infos->philos = calloc(infos->philo_nbr, sizeof(t_philo));
 	infos->forks = calloc(infos->philo_nbr, sizeof(t_fork));
+	handle_mutex(&infos->info_mutex, INIT);
 	while (i++ < infos->philo_nbr)
 	{
 		handle_mutex(&infos->forks[i].fork, INIT);

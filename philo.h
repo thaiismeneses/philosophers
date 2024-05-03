@@ -77,7 +77,9 @@ typedef struct s_info
 	long	tt_sleep;
 	long	nbr_limit_meals; // if does not have the nbr of meals will be -1
 	long	start_routine;
+	t_bool	all_philo_created;
 	t_bool	end_routine; // if a philo dies or all of them have eaten
+	pthread_mutex_t	info_mutex; // avoid races while reading from infos
 	t_fork	*forks;
 	t_philo	*philos;
 }	t_info;
@@ -92,4 +94,12 @@ void	data_init(t_info *infos);
 void handle_mutex(pthread_mutex_t *mutex, t_code code);
 void handle_thread(pthread_t *thread, void *(*foo)(void *), void *data, t_code code);
 void	data_init(t_info *infos);
+
+void	set_bool(pthread_mutex_t * mutex, t_bool *dest, t_bool value);
+t_bool	get_bool(pthread_mutex_t *mutex, t_bool *value);
+void	set_long(pthread_mutex_t * mutex, long *dest, long value);
+long	get_long(pthread_mutex_t *mutex, long *value);
+t_bool	simulation_finished(t_info *infos);
+void	wait_creation_philo(t_info * infos);
+
 #endif
