@@ -6,7 +6,7 @@
 #    By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/29 12:30:36 by thfranco          #+#    #+#              #
-#    Updated: 2024/04/29 14:46:19 by thfranco         ###   ########.fr        #
+#    Updated: 2024/05/17 19:02:02 by thfranco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,16 @@ SRCS		:= main.c \
 			init.c\
 			mutex.c\
 			thread.c\
+			write.c\
+			routine.c\
+			getters_and_setters.c\
 
 
 OBJS		:=	$(SRCS:.c=.o)
 
 CC			:=	cc
 
-FLAGS		:=	-Wall -Wextra -Werror -g 
+FLAGS		:=	-Wall -Wextra -Werror -g
 
 #-fsanitize=address
 
@@ -38,7 +41,7 @@ $(NAME): $(OBJS)
 		@echo "Compilation of $(NAME)!!!"
 		@$(CC) $(FLAGS) $(SRCS) -o $(NAME)
 		@echo "$(NAME) created!!✔️"
-	
+
 clean:
 		@echo "Deleting $(NAME) objs!! ✔️"
 		@$(RM) $(OBJS)
@@ -47,6 +50,6 @@ fclean:	clean
 		@echo "Deleting $(NAME)!!✔️"
 		@$(RM) $(NAME)
 
-re:	fclean all 
+re:	fclean all
 
-.PHONY:  all clean fclean re 
+.PHONY:  all clean fclean re

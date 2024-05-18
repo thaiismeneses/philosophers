@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:02:55 by thfranco          #+#    #+#             */
-/*   Updated: 2024/04/29 15:56:44 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/18 12:06:58 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ int main(int ac, char **av)
 		valid_input(&infos, av);
 		//creating the actual thing
 		data_init(&infos);
-		//start dinner
-
-		//finish with no leakage when philo finished eat | philo dies 
-		
+		dinner_start(&infos);
+		//finish with no leakage when philo finished eat | philo dies
+		clean(&infos);
 	}
 	else
 	{
