@@ -6,7 +6,7 @@
 #    By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/29 12:30:36 by thfranco          #+#    #+#              #
-#    Updated: 2024/05/17 19:02:02 by thfranco         ###   ########.fr        #
+#    Updated: 2024/05/19 16:13:59 by thfranco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS		:= main.c \
 			write.c\
 			routine.c\
 			getters_and_setters.c\
+			monitor.c\
 
 
 OBJS		:=	$(SRCS:.c=.o)

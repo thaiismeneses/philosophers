@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:06:29 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/18 12:32:15 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:31:55 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_calloc(size_t n_elements, size_t size)
 
 void	*ft_memset(void *s, int i, size_t len)
 {
-	char *c;
+	char	*c;
 
 	c = (char *)s;
 	while (len > 0)
@@ -37,7 +37,7 @@ void	*ft_memset(void *s, int i, size_t len)
 	return (s);
 }
 
-void	wait_creation_philo(t_info * infos)
+void	wait_creation_philo(t_info *infos)
 {
 	while (!get_bool(&infos->info_mutex, &infos->all_philo_created))
 		;
@@ -45,7 +45,8 @@ void	wait_creation_philo(t_info * infos)
 
 long	get_time(t_time_code time_code)
 {
-	struct timeval tv;
+	struct timeval	tv;
+
 	if (gettimeofday(&tv, NULL))
 		error_exit("Gettimeofday failled");
 	if (time_code == SECONDS)
@@ -61,9 +62,9 @@ long	get_time(t_time_code time_code)
 
 void	precise_usleep(long usec, t_info *infos)
 {
-	long start;
-	long used_time;
-	long remaining_time;
+	long	start;
+	long	used_time;
+	long	remaining_time;
 
 	start = get_time(MICROSECONDS);
 	while (get_time(MICROSECONDS) - start < usec)
@@ -73,12 +74,11 @@ void	precise_usleep(long usec, t_info *infos)
 		used_time = get_time(MICROSECONDS) - start;
 		remaining_time = usec - used_time;
 		if (remaining_time > 1e3)
-			usleep(usec / 2);
+			usleep(remaining_time / 2);
 		else
 			while (get_time(MICROSECONDS) - start < usec)
 				;
 	}
-
 }
 
 void	clean(t_info *infos)
@@ -96,4 +96,18 @@ void	clean(t_info *infos)
 	handle_mutex(&infos->info_mutex, DESTROY);
 	free(infos->forks);
 	free(infos->philos);
+}
+
+void	synchronize_philo(t_philo *philo)
+{
+	if (philo->infos->philo_nbr % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+			precise_usleep(3e4, philo->infos);
+	}
+	else
+	{
+		if (philo->id % 2 != 0)
+			think(philo, true);
+	}
 }

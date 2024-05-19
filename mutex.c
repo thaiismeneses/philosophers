@@ -6,13 +6,13 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 14:17:29 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/18 12:30:45 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:31:24 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void handle_mutex_error(int status, t_code code)
+static void	handle_mutex_error(int status, t_code code)
 {
 	if (0 == status)
 		return ;
@@ -28,10 +28,9 @@ static void handle_mutex_error(int status, t_code code)
 		error_exit("The process cannot allocate enough memory to create another mutex.");
 	else if (EBUSY == status)
 		error_exit("Mutex is locked.");
-
 }
 
-void handle_mutex(pthread_mutex_t *mutex, t_code code)
+void	handle_mutex(pthread_mutex_t *mutex, t_code code)
 {
 	if (code == LOCK)
 		handle_mutex_error(pthread_mutex_lock(mutex), code);

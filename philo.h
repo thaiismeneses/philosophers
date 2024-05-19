@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:27 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/17 21:55:27 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:31:36 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ typedef struct s_info
 	long				tt_sleep;
 	long nbr_limit_meals; // if does not have the nbr of meals will be -1
 	long				start_routine;
+	long				threads_running_n;
 	t_bool				all_philo_created;
-	t_bool end_routine;         // if a philo dies or all of them have eaten
+	t_bool end_routine; // if a philo dies or all of them have eaten
+	pthread_t			monitor;
 	pthread_mutex_t info_mutex; // avoid races while reading from infos
 	pthread_mutex_t		write_mutex;
 	t_fork				*forks;
@@ -128,8 +130,10 @@ void					write_status(t_philo_status status, t_philo *philo);
 void					precise_usleep(long usec, t_info *infos);
 void					dinner_start(t_info *infos);
 void					clean(t_info *infos);
-
-// APAGAR
-void					print_philo(t_philo *philo);
-void					print_info(t_info *info);
+void					increase_long(pthread_mutex_t *mutex, long *value);
+t_bool					all_threads_running(pthread_mutex_t *mutex,
+							long *threads, long philo_nbr);
+void					*monitor_dinner(void *data);
+void					synchronize_philo(t_philo *philo);
+void					think(t_philo *philo, t_bool pre_simulation);
 #endif
