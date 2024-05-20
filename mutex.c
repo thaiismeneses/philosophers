@@ -12,34 +12,17 @@
 
 #include "philo.h"
 
-static void	handle_mutex_error(int status, t_code code)
-{
-	if (0 == status)
-		return ;
-	if (EINVAL == status && (LOCK == code || UNLOCK == code || DESTROY == code))
-		error_exit("The value specified by mutex is invalid.");
-	else if (EINVAL == status && INIT == code)
-		error_exit("The value specified by attr is invalid.");
-	else if (EDEADLK == status)
-		error_exit("A deadlock would occur if the thread blocked waiting for mutex.");
-	else if (EPERM == status)
-		error_exit("The current thread does not hold a lock on mutex.");
-	else if (ENOMEM == status)
-		error_exit("The process cannot allocate enough memory to create another mutex.");
-	else if (EBUSY == status)
-		error_exit("Mutex is locked.");
-}
 
 void	handle_mutex(pthread_mutex_t *mutex, t_code code)
 {
 	if (code == LOCK)
-		handle_mutex_error(pthread_mutex_lock(mutex), code);
+		pthread_mutex_lock(mutex);
 	else if (code == UNLOCK)
-		handle_mutex_error(pthread_mutex_unlock(mutex), code);
+		pthread_mutex_unlock(mutex);
 	else if (code == INIT)
-		handle_mutex_error(pthread_mutex_init(mutex, NULL), code);
+		pthread_mutex_init(mutex, NULL);
 	else if (code == DESTROY)
-		handle_mutex_error(pthread_mutex_destroy(mutex), code);
+		pthread_mutex_destroy(mutex);
 	else
 		error_exit("Wrong code for mutex handle");
 }

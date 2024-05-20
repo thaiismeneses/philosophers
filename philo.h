@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:27 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:31:36 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:38:50 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,6 @@
 
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
-
-# define EINVAL 1
-# define EDEADLK 2
-# define EPERM 3
-# define ENOMEM 4
-# define EBUSY 5
-# define EAGAIN 6
-# define ESRCH 7
 
 typedef struct s_info	t_info;
 
@@ -84,7 +76,6 @@ typedef struct s_philo
 	pthread_t thread_id; // a philo ia a thread
 	pthread_mutex_t		philo_mutex;
 	t_info				*infos;
-	//	nbr_meals;
 }						t_philo;
 
 typedef struct s_info
@@ -107,10 +98,9 @@ typedef struct s_info
 
 int						error_exit(const char *error);
 int						check_args(char **av);
-void					valid_input(t_info *info, char **av);
+int					valid_input(t_info *info, char **av);
 void					*ft_memset(void *s, int i, size_t len);
 void					*ft_calloc(size_t n_elements, size_t size);
-
 void					data_init(t_info *infos);
 void					handle_mutex(pthread_mutex_t *mutex, t_code code);
 void					handle_thread(pthread_t *thread, void *(*foo)(void *),

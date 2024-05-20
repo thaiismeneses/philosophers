@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:33:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:32:03 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/20 13:49:01 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	error_exit(const char *error)
 {
 	printf("%s", error);
-	return (1);
+	return (0);
 }
 
 void	write_status(t_philo_status status, t_philo *philo)

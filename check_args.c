@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:45:15 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:30:31 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:15:00 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,26 @@ static long	ft_atol(const char *str)
 	}
 	return (result * sign);
 }
+static int	check_signal(char *str)
+{
+	int	j;
+
+	j = 0;
+	while (str[j] != '\0')
+	{
+		if (str[j] == '+' || str[j] == '-')
+		{
+			if (str[j] == '-')
+			{
+				printf("Invalid!! Only positive numbers are allowed!!\n");
+				return (0);
+			}
+			j++;
+		}
+		j++;
+	}
+	return (1);
+}
 
 int	check_args(char **av)
 {
@@ -51,43 +71,46 @@ int	check_args(char **av)
 	int	j;
 
 	i = 1;
-	while (av[i])
+	while (av[i] && check_signal(av[i]))
 	{
 		j = 0;
-		if (av[i][j] == '+' || av[i][j] == '-')
-		{
-			if (av[i][j] == '-')
-				error_exit("Invalid!! Only positive numbers are allowed!!\n");
-			j++;
-		}
-		while (av[i][j] != '\0')
+		while (av[i][j] != '\0' )
 		{
 			if (!ft_isdigit(av[i][j]))
-				error_exit("Invalid!! Only digit caracters are allowed!!\n");
+			{
+				printf("Invalid!! Only digit caracters are allowed!!\n");
+				return (0);
+			}
 			j++;
 		}
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
-void	valid_input(t_info *info, char **av)
+int	valid_input(t_info *info, char **av)
 {
-	if (check_args(av) == 0)
+	if (check_args(av))
 	{
 		info->philo_nbr = ft_atol(av[1]);
-		printf("Numero de filosofos: %ld\n", info->philo_nbr);
 		if (info->philo_nbr > 200 || info->philo_nbr <= 0)
-			error_exit("Invalid number of philosophers!!\n");
+		{
+			printf("Invalid number of philosophers!!\n");
+			return (0);
+		}
 		info->tt_die = ft_atol(av[2]) * 1000;
 		info->tt_eat = ft_atol(av[3]) * 1000;
 		info->tt_sleep = ft_atol(av[4]) * 1000;
 		if (info->tt_die < 60000 || info->tt_eat < 60000
 			|| info->tt_sleep < 60000)
-			error_exit("The timestamp must be bigger than 60ms\n");
+		{
+			printf("The timestamp must be bigger than 60ms\n");
+			return (0);
+		}
 		if (av[5])
 			info->nbr_limit_meals = ft_atol(av[5]);
 		else
 			info->nbr_limit_meals = -1;
 	}
+	return (1);
 }
