@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 10:14:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:31:46 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:38:22 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	*one_philo(void *arg)
 	philo = (t_philo *)arg;
 	wait_creation_philo(philo->infos);
 	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time(MILISECONDS));
+		get_time_in_ms());
 	increase_long(&philo->infos->info_mutex, &philo->infos->threads_running_n);
 	write_status(TAKEN_FIRST_FORK, philo);
 	while (!simulation_finished(philo->infos))
@@ -50,7 +50,7 @@ static void	eat(t_philo *philo)
 	handle_mutex(&philo->second_fork->fork, LOCK);
 	write_status(TAKEN_SECOND_FORK, philo);
 	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time(MILISECONDS));
+		get_time_in_ms());
 	philo->meals_counter++;
 	write_status(EATING, philo);
 	precise_usleep(philo->infos->tt_eat, philo->infos);
@@ -66,9 +66,10 @@ static void	*dinner_simutation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	wait_creation_philo(philo->infos);
+	//wait_creation_philo(philo->infos);
+	usleep(200);
 	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time(MILISECONDS));
+		get_time_in_ms());
 	increase_long(&philo->infos->info_mutex, &philo->infos->threads_running_n);
 	synchronize_philo(philo);
 	while (!simulation_finished(philo->infos)) // set last meal
@@ -100,7 +101,8 @@ void	dinner_start(t_info *infos)
 				&infos->philos[i], CREATE);
 	}
 	handle_thread(&infos->monitor, monitor_dinner, infos, CREATE);
-	infos->start_routine = get_time(MILISECONDS);
+	set_long(&infos->info_mutex, &infos->start_routine, get_time_in_ms());
+	infos->start_routine = get_time_in_ms();
 	set_bool(&infos->info_mutex, &infos->all_philo_created, true);
 	i = -1;
 	while (++i < infos->philo_nbr)

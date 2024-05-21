@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:06:29 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:31:55 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:09:59 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	wait_creation_philo(t_info *infos)
 		;
 }
 
-long	get_time(t_time_code time_code)
+/*long	get_time(t_time_code time_code)
 {
 	struct timeval	tv;
 
@@ -58,9 +58,17 @@ long	get_time(t_time_code time_code)
 	else
 		error_exit("Wrong input to get_time!");
 	return (1337);
+}*/
+
+long	get_time_in_ms(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	precise_usleep(long usec, t_info *infos)
+/*void	precise_usleep(long usec, t_info *infos)
 {
 	long	start;
 	long	used_time;
@@ -77,6 +85,27 @@ void	precise_usleep(long usec, t_info *infos)
 			usleep(remaining_time / 2);
 		else
 			while (get_time(MICROSECONDS) - start < usec)
+				;
+	}
+}*/
+
+void	precise_usleep(long usec, t_info *infos)
+{
+	long	start;
+	long	used_time;
+	long	remaining_time;
+
+	start = get_time_in_ms();
+	while ((get_time_in_ms() - start) < (usec / 1000))
+	{
+		if (simulation_finished(infos))
+			break ;
+		used_time = get_time_in_ms() - start;
+		remaining_time = usec - (used_time * 1000);
+		if (remaining_time > 1000)
+			usleep(remaining_time / 2000);
+		else
+			while ((get_time_in_ms() - start) < (usec / 1000))
 				;
 	}
 }

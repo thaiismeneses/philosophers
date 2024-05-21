@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:39:48 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:31:15 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:13:25 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_bool	philo_died(t_philo *philo)
 
 	if (get_bool(&philo->philo_mutex, &philo->full))
 		return (false);
-	used_time = get_time(MILISECONDS) - get_long(&philo->philo_mutex,
+	used_time = get_time_in_ms() - get_long(&philo->philo_mutex,
 			&philo->last_meal_time);
 	tt_die = philo->infos->tt_die / 1e3;
 	if (used_time > tt_die)

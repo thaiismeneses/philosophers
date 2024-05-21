@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:27 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/20 11:38:50 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:10:58 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,9 @@ void					set_long(pthread_mutex_t *mutex, long *dest,
 long					get_long(pthread_mutex_t *mutex, long *value);
 t_bool					simulation_finished(t_info *infos);
 void					wait_creation_philo(t_info *infos);
-long					get_time(t_time_code time_code);
+//long					get_time(t_time_code time_code);
+long	get_time_in_ms(void);
+
 void					write_status(t_philo_status status, t_philo *philo);
 void					precise_usleep(long usec, t_info *infos);
 void					dinner_start(t_info *infos);

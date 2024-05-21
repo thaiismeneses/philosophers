@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:14:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/19 18:30:56 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:26:07 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	data_init(t_info *infos)
 	infos->end_routine = false;
 	infos->all_philo_created = false;
 	infos->threads_running_n = 0;
+	infos->start_routine = 0;
 	infos->philos = ft_calloc(infos->philo_nbr, sizeof(t_philo));
 	infos->forks = ft_calloc(infos->philo_nbr, sizeof(t_fork));
 	handle_mutex(&infos->write_mutex, INIT);
