@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 10:14:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/22 13:51:14 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:18:25 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	*one_philo(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	wait_creation_philo(philo->infos);
+	//wait_creation_philo(philo->infos);
+	usleep(200);
 	set_long(&philo->philo_mutex, &philo->last_meal_time,
 		get_time_in_ms());
 	increase_long(&philo->infos->info_mutex, &philo->infos->threads_running_n);
