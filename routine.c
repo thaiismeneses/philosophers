@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 10:14:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/21 17:38:22 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:51:14 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	dinner_start(t_info *infos)
 	}
 	handle_thread(&infos->monitor, monitor_dinner, infos, CREATE);
 	set_long(&infos->info_mutex, &infos->start_routine, get_time_in_ms());
-	infos->start_routine = get_time_in_ms();
+	//infos->start_routine = get_time_in_ms();
 	set_bool(&infos->info_mutex, &infos->all_philo_created, true);
 	i = -1;
 	while (++i < infos->philo_nbr)
