@@ -6,20 +6,18 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:14:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/21 17:26:07 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:54:44 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//[philo_position + 1] % philo_nbr posição do garfo esquerdo
 static void	assign_forks(t_philo *philo, t_fork *forks, int position)
 {
 	int	philo_nbr;
 
 	philo_nbr = philo->infos->philo_nbr;
-	// printf("Philo id: %d\n", philo->id);
-	if (philo->id % 2 == 0) // if philo id is odd(impar)
+	if (philo->id % 2 == 0)
 	{
 		philo->first_fork = &forks[position];
 		philo->second_fork = &forks[(position + 1) % philo_nbr];

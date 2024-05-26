@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:16:27 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/21 17:10:58 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:05:41 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,6 @@ typedef enum e_code
 	DESTROY,
 }						t_code;
 
-typedef enum e_time
-{
-	SECONDS,
-	MILISECONDS,
-	MICROSECONDS,
-}						t_time_code;
-
 typedef enum e_status
 {
 	EATING,
@@ -52,7 +45,6 @@ typedef enum e_status
 	DIED,
 }						t_philo_status;
 
-// boolean
 typedef enum e_bool
 {
 	false,
@@ -73,7 +65,7 @@ typedef struct s_philo
 	long				last_meal_time;
 	t_fork				*first_fork;
 	t_fork				*second_fork;
-	pthread_t thread_id; // a philo ia a thread
+	pthread_t			thread_id;
 	pthread_mutex_t		philo_mutex;
 	t_info				*infos;
 }						t_philo;
@@ -84,13 +76,13 @@ typedef struct s_info
 	long				tt_die;
 	long				tt_eat;
 	long				tt_sleep;
-	long nbr_limit_meals; // if does not have the nbr of meals will be -1
+	long				nbr_limit_meals;
 	long				start_routine;
 	long				threads_running_n;
 	t_bool				all_philo_created;
-	t_bool end_routine; // if a philo dies or all of them have eaten
+	t_bool				end_routine;
 	pthread_t			monitor;
-	pthread_mutex_t info_mutex; // avoid races while reading from infos
+	pthread_mutex_t		info_mutex;
 	pthread_mutex_t		write_mutex;
 	t_fork				*forks;
 	t_philo				*philos;
@@ -98,7 +90,7 @@ typedef struct s_info
 
 int						error_exit(const char *error);
 int						check_args(char **av);
-int					valid_input(t_info *info, char **av);
+int						valid_input(t_info *info, char **av);
 void					*ft_memset(void *s, int i, size_t len);
 void					*ft_calloc(size_t n_elements, size_t size);
 void					data_init(t_info *infos);
@@ -115,9 +107,7 @@ void					set_long(pthread_mutex_t *mutex, long *dest,
 long					get_long(pthread_mutex_t *mutex, long *value);
 t_bool					simulation_finished(t_info *infos);
 void					wait_creation_philo(t_info *infos);
-//long					get_time(t_time_code time_code);
-long	get_time_in_ms(void);
-
+long					get_time_in_ms(void);
 void					write_status(t_philo_status status, t_philo *philo);
 void					precise_usleep(long usec, t_info *infos);
 void					dinner_start(t_info *infos);

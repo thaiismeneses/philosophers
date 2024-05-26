@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:33:59 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/22 17:25:07 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:01:50 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	write_status(t_philo_status status, t_philo *philo)
 {
 	long	real_time;
 
-	real_time = get_time_in_ms() - get_long(&philo->infos->info_mutex, &philo->infos->start_routine);
+	real_time = get_time_in_ms() - get_long(&philo->infos->info_mutex,
+			&philo->infos->start_routine);
 	if (philo->full)
 		return ;
 	handle_mutex(&philo->infos->write_mutex, LOCK);

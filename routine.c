@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 10:14:17 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/22 14:18:25 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:58:30 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,28 @@ void	think(t_philo *philo, t_bool pre_simulation)
 		tt_think = 0;
 	precise_usleep(tt_think * 0.42, philo->infos);
 }
+
 static void	*one_philo(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	//wait_creation_philo(philo->infos);
 	usleep(200);
-	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time_in_ms());
+	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time_in_ms());
 	increase_long(&philo->infos->info_mutex, &philo->infos->threads_running_n);
 	write_status(TAKEN_FIRST_FORK, philo);
 	while (!simulation_finished(philo->infos))
 		usleep(200);
 	return (NULL);
 }
+
 static void	eat(t_philo *philo)
 {
 	handle_mutex(&philo->first_fork->fork, LOCK);
 	write_status(TAKEN_FIRST_FORK, philo);
 	handle_mutex(&philo->second_fork->fork, LOCK);
 	write_status(TAKEN_SECOND_FORK, philo);
-	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time_in_ms());
+	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time_in_ms());
 	philo->meals_counter++;
 	write_status(EATING, philo);
 	precise_usleep(philo->infos->tt_eat, philo->infos);
@@ -67,13 +66,11 @@ static void	*dinner_simutation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	//wait_creation_philo(philo->infos);
 	usleep(200);
-	set_long(&philo->philo_mutex, &philo->last_meal_time,
-		get_time_in_ms());
+	set_long(&philo->philo_mutex, &philo->last_meal_time, get_time_in_ms());
 	increase_long(&philo->infos->info_mutex, &philo->infos->threads_running_n);
 	synchronize_philo(philo);
-	while (!simulation_finished(philo->infos)) // set last meal
+	while (!simulation_finished(philo->infos))
 	{
 		if (philo->full)
 			break ;
@@ -103,7 +100,6 @@ void	dinner_start(t_info *infos)
 	}
 	handle_thread(&infos->monitor, monitor_dinner, infos, CREATE);
 	set_long(&infos->info_mutex, &infos->start_routine, get_time_in_ms());
-	//infos->start_routine = get_time_in_ms();
 	set_bool(&infos->info_mutex, &infos->all_philo_created, true);
 	i = -1;
 	while (++i < infos->philo_nbr)

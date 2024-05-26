@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:45:15 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/20 17:15:00 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:53:40 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static long	ft_atol(const char *str)
 	}
 	return (result * sign);
 }
+
 static int	check_signal(char *str)
 {
 	int	j;

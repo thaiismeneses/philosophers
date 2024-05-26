@@ -6,7 +6,7 @@
 /*   By: thfranco <thfranco@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 12:39:48 by thfranco          #+#    #+#             */
-/*   Updated: 2024/05/21 17:13:25 by thfranco         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:33:15 by thfranco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,18 @@ void	*monitor_dinner(void *data)
 		}
 	}
 	return (NULL);
+}
+
+void	synchronize_philo(t_philo *philo)
+{
+	if (philo->infos->philo_nbr % 2 == 0)
+	{
+		if (philo->id % 2 == 0)
+			precise_usleep(3e4, philo->infos);
+	}
+	else
+	{
+		if (philo->id % 2 != 0)
+			think(philo, true);
+	}
 }
